@@ -8,6 +8,12 @@ class BaseRepository(ABC):
     @abstractmethod
     def get_by_id(self, id):
         pass
-    
+
 class PostRepository(BaseRepository):
+    pass
+
+class CommentRepository(BaseRepository):
+    pass
+
+class UserRepository(BaseRepository):
     pass
