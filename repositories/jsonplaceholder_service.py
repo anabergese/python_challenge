@@ -3,10 +3,17 @@ import httpx
 JSONPLACEHOLDER_API_URL = 'https://jsonplaceholder.typicode.com'
 
 async def fetch_data(url):
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url)
-        response.raise_for_status()
-        return response.json()
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+            response.raise_for_status()
+            return response.json()
+    except httpx.RequestError as req_err:
+        print(f"Request error: {req_err}")
+        raise
+    except httpx.HTTPStatusError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+        raise
 
 async def get_all_posts():
     url = f'{JSONPLACEHOLDER_API_URL}/posts'
