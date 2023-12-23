@@ -5,23 +5,14 @@ from models.model import Post, User
 
 app = FastAPI()
 
-def get_post_repository() -> PostRepository:
-    return ApiPostRepository()
-
-def get_comment_repository() -> CommentRepository:
-    return ApiCommentRepository()
-
-def get_user_repository() -> UserRepository:
-    return ApiUserRepository()
-
 def handle_exception(e: Exception):
     raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 @app.get("/post-with-comments/{post_id}", response_model=dict)
 async def get_post_with_comments(
     post_id: int,
-    post_repository: PostRepository = Depends(get_post_repository),
-    comment_repository: CommentRepository = Depends(get_comment_repository),
+    post_repository: PostRepository = Depends(ApiPostRepository),
+    comment_repository: CommentRepository = Depends(ApiCommentRepository),
 ):
     try:
         post = await post_repository.get_by_id(post_id)
@@ -41,7 +32,7 @@ async def get_post_with_comments(
         handle_exception(e)
 
 @app.get("/posts", response_model=list[Post])
-async def read_all_posts(post_repository: PostRepository = Depends(get_post_repository)):
+async def read_all_posts(post_repository: PostRepository = Depends(ApiPostRepository)):
     try:
         posts = await post_repository.get_all()
         if posts:
@@ -52,7 +43,7 @@ async def read_all_posts(post_repository: PostRepository = Depends(get_post_repo
         handle_exception(e)
     
 @app.get("/users/{user_id}", response_model=User)
-async def read_user_by_id(user_id: int, user_repository: UserRepository = Depends(get_user_repository)):
+async def read_user_by_id(user_id: int, user_repository: UserRepository = Depends(ApiUserRepository)):
     try:
         user = await user_repository.get_by_id(user_id)
         if user:
