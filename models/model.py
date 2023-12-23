@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class User(BaseModel):
     id: int
     name: str
@@ -8,11 +9,13 @@ class User(BaseModel):
     phone: str
     website: str
 
+
 class Post(BaseModel):
     id: int
     userId: int
     title: str
     body: str
+
 
 class Comment(BaseModel):
     id: int

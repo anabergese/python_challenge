@@ -1,0 +1,11 @@
+[pylint.messages_control]
+# Disable messages about missing module docstring
+disable=C0114
+
+[pylint.messages_control]
+# Disable messages about missing class docstring
+disable=C0115
+
+[pylint.messages_control]
+# Disable messages about missing function or method docstring
+disable=C0116
