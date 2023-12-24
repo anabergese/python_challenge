@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class User(BaseModel):
     id: int
     name: str
     username: str
-    email: str
+    email: EmailStr
     phone: str
     website: str
 
@@ -21,5 +21,5 @@ class Comment(BaseModel):
     id: int
     postId: int
     name: str
-    email: str
+    email: EmailStr
     body: str
