@@ -1,0 +1,40 @@
+# Virtual Environment
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE files
+.vscode/
+
+# Test-related files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+coverage/
+
+# Dependency directories
+__pycache__/
+dist/
+build/
+
+# Environment variables file
+.env
+
+# Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore the logs
+*.log
+
+# Ignore generated files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
