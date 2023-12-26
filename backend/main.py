@@ -8,13 +8,15 @@ from backend.src.repositories.jsonplaceholder_repository import (
 from backend.src.domain.model import Post, User
 from typing import Optional
 
-
 app = FastAPI()
 
 
 def handle_exception(e: Exception):
     raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 @app.get("/post-with-comments/{post_id}")
 async def get_post_with_comments(
@@ -33,7 +35,7 @@ async def get_post_with_comments(
                 "body": post.body,
                 "comments": comments,
             }
-            return JSONResponse(content=post_with_comments)
+            return post_with_comments
         else:
             raise HTTPException(status_code=404, detail="Post not found")
     except Exception as e:
@@ -45,7 +47,7 @@ async def read_all_posts(post_repository: ApiPostRepository = Depends()):
     try:
         posts = await post_repository.get_all()
         if posts:
-            return JSONResponse(content=posts)
+            return posts
         else:
             raise HTTPException(status_code=404, detail="Posts not found")
     except Exception as e:
@@ -57,7 +59,7 @@ async def read_user_by_id(user_id: int, user_repository: ApiUserRepository = Dep
     try:
         user = await user_repository.get_by_id(user_id)
         if user:
-            return JSONResponse(content=user)
+            return user
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as e:
