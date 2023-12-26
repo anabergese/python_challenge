@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, Field, EmailStr
 
 
 class User(BaseModel):
@@ -12,7 +12,7 @@ class User(BaseModel):
 
 class Post(BaseModel):
     id: int
-    userId: int
+    userId: int = Field(..., gt=0)
     title: str
     body: str
 

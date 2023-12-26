@@ -2,8 +2,6 @@ import pytest
 from fastapi.testclient import TestClient
 from backend.main import app, handle_exception
 from backend.src.domain.model import Post
-import sys
-print(sys.path)
 
 client = TestClient(app)
 
