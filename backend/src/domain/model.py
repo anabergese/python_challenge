@@ -9,17 +9,16 @@ class User(BaseModel):
     phone: str
     website: str
 
-
-class Post(BaseModel):
-    id: int
-    userId: int = Field(..., gt=0)
-    title: str
-    body: str
-
-
 class Comment(BaseModel):
     id: int
     postId: int
     name: str
     email: EmailStr
     body: str
+
+class Post(BaseModel):
+    id: int
+    userId: int = Field(..., gt=0)
+    title: str
+    body: str
+    comments: list[Comment] | None = None

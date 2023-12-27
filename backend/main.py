@@ -18,30 +18,6 @@ def handle_exception(e: Exception):
 def root():
     return {"message": "Hello World"}
 
-@app.get("/post-with-comments/{post_id}")
-async def get_post_with_comments(
-    post_id: int,
-    post_repository: ApiPostRepository = Depends(),
-    comment_repository: ApiCommentRepository = Depends(),
-):
-    try:
-        post: Optional[Post] = await post_repository.get_by_id(post_id)
-        if post:
-            comments = await comment_repository.get_comments_by_post_id(post_id)
-            post_with_comments = {
-                "user_id": post.userId,
-                "id": post.id,
-                "title": post.title,
-                "body": post.body,
-                "comments": comments,
-            }
-            return post_with_comments
-        else:
-            raise HTTPException(status_code=404, detail="Post not found")
-    except Exception as e:
-        handle_exception(e)
-
-
 @app.get("/posts", response_model=list[Post])
 async def read_all_posts(post_repository: ApiPostRepository = Depends()):
     try:
@@ -53,6 +29,22 @@ async def read_all_posts(post_repository: ApiPostRepository = Depends()):
     except Exception as e:
         handle_exception(e)
 
+@app.get("/post-with-comments/{post_id}", response_model=Post)
+async def get_post_with_comments(
+    post_id: int,
+    post_repository: ApiPostRepository = Depends(),
+    comment_repository: ApiCommentRepository = Depends(),
+):
+    try:
+        post: Optional[Post] = await post_repository.get_by_id(post_id)
+        if post:
+            comments = await comment_repository.get_comments_by_post_id(post_id)
+            post.comments = comments
+            return post
+        else:
+            raise HTTPException(status_code=404, detail="Post not found")
+    except Exception as e:
+        handle_exception(e)
 
 @app.get("/users/{user_id}", response_model=User)
 async def read_user_by_id(user_id: int, user_repository: ApiUserRepository = Depends()):
