@@ -15,7 +15,7 @@ def handle_exception(e: Exception):
     raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 @app.get("/")
-async def root():
+def root():
     return {"message": "Hello World"}
 
 @app.get("/post-with-comments/{post_id}")
