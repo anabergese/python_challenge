@@ -46,6 +46,23 @@ def test_read_user_by_id(mocker):
     user_from_response = response.json()
     assert user_from_response == MockedUser
 
+def test_cannot_read_with_invalid_user_id_type(mocker):
+    mocker.patch("backend.main.ApiUserRepository.get_by_id", return_value=MockedUser)
+
+    response = client.get("/users/invalid_id")
+    assert response.status_code == 422
+    response_data = response.json()
+    detail = response_data["detail"][0]
+    assert detail["type"] == "int_parsing"
+    assert detail["msg"] == "Input should be a valid integer, unable to parse string as an integer"
+    assert detail["input"] == "invalid_id"
+
+def test_cannot_read_inexistent_user_id():    
+    response = client.get("/users/1234567890")
+    assert response.status_code == 500
+    response_data = response.json()
+    detail = response_data["detail"]
+    assert detail == "Internal Server Error: Client error '404 Not Found' for url 'https://jsonplaceholder.typicode.com/users/1234567890'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
 
 def test_get_post_with_comments(mocker):
     try:
@@ -73,4 +90,4 @@ def test_get_post_with_comments(mocker):
         assert response_data['body'] == MockedPost.body
         assert response_comments == MockedPost.comments
 
-
+# https://fastapi.tiangolo.com/tutorial/testing/
