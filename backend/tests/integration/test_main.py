@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app, handle_exception
-from backend.src.domain.model import Post
+from backend.src.domain.model import Post, Comment
 
 client = TestClient(app)
 
@@ -10,12 +10,12 @@ MockedPosts = [
     Post(userId=1, id=2, title="Mocked Post 2", body="Mocked Body 2").model_dump(),
 ]
 
-MockedPost = Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1")
-
 MockedComments = [
-    {'body': 'Mocked Body 1', 'email': 'test@io.io', 'id': 1, 'name': 'Mocked Name 1', 'postId': 1},
-    {'body': 'Mocked Body 1', 'email': 'test@io.io', 'id': 2, 'name': 'Mocked Name 2', 'postId': 1}
+    Comment(body='Mocked Body 1', email='test@io.io', id=1, name='Mocked Name 1', postId=1),
+    Comment(body='Mocked Body 1', email='test@io.io', id=2, name='Mocked Name 2', postId=1),
 ]
+
+MockedPost = Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1", comments=MockedComments)
 
 MockedUser = {
     'id': 1,
@@ -47,26 +47,30 @@ def test_read_user_by_id(mocker):
     assert user_from_response == MockedUser
 
 
-def test_get_post_with_comments(mocker):    
+def test_get_post_with_comments(mocker):
     try:
         mocker.patch("backend.main.ApiPostRepository.get_by_id", return_value=MockedPost)
+        mocker.patch("backend.main.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
         if MockedPost:
-            mocker.patch("backend.main.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
-            post_with_comments = {
-                "user_id": MockedPost.userId,
-                "id": MockedPost.id,
-                "title": MockedPost.title,
-                "body": MockedPost.body,
-                "comments": MockedComments,
-            }
-            assert post_with_comments
+            MockedPost.comments = MockedComments if MockedComments else []
         else:
             raise Exception("Post not found error")
     except Exception as e:
         handle_exception(e)
-    
-    if post_with_comments:
+
+    if MockedPost:
         response = client.get("/post-with-comments/13")
         assert response.status_code == 200
-        assert response.json() == post_with_comments
+        response_data = response.json()
+
+        # Convert comments in the response to Comment instances
+        response_comments_data = response_data.get('comments', [])
+        response_comments = [Comment(**comment) for comment in response_comments_data]
+
+        assert response_data['id'] == MockedPost.id
+        assert response_data['userId'] == MockedPost.userId
+        assert response_data['title'] == MockedPost.title
+        assert response_data['body'] == MockedPost.body
+        assert response_comments == MockedPost.comments
+
 
