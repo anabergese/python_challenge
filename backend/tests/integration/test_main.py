@@ -91,3 +91,5 @@ def test_get_post_with_comments(mocker):
         assert response_comments == MockedPost.comments
 
 # https://fastapi.tiangolo.com/tutorial/testing/
+# def test_cannot_get_post_with_comments_with_invalid_post_id_type()
+# def test_cannot_get_post_with_comments_with_inexistent_post_id()
