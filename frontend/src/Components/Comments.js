@@ -6,8 +6,8 @@ const Comments = ({ comments }) => {
       <h1 className="title is-2 mt-6 mb-5">Comments</h1>
       <div className="columns is-multiline">
         {comments.map((comment) => (
-          <div className="column is-half">
-            <div className="card" key={comment.id}>
+          <div className="column is-half" key={comment.id}>
+            <div className="card">
               <p className="card-header-title has-background-warning has-text-black-ter is-capitalized">
                 {comment.name}
               </p>

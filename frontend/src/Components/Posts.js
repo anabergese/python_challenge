@@ -7,14 +7,16 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/posts/")
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/posts/");
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

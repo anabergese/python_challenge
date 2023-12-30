@@ -11,19 +11,23 @@ const Post = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/post-with-comments/${id}`)
-      .then((res) => {
-        setPost(res.data);
-        console.log(res.data);
-        return axios.get(`http://localhost:8000/users/${res.data.userId}`);
-      })
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      try {
+        const postResponse = await axios.get(
+          `http://localhost:8000/post-with-comments/${id}`
+        );
+        setPost(postResponse.data);
+
+        const userResponse = await axios.get(
+          `http://localhost:8000/users/${postResponse.data.userId}`
+        );
+        setUser(userResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   const handleClick = () => {
