@@ -8,6 +8,7 @@ const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Post = () => {
         setUser(userResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError("Inexistent post. Please try again.");
       }
     };
 
@@ -36,7 +38,9 @@ const Post = () => {
 
   return (
     <div>
-      {post && user ? (
+      {error ? (
+        <p>Error: {error}</p>
+      ) : post && user ? (
         <div>
           <div className="card">
             <div className="card-content has-background-light">
