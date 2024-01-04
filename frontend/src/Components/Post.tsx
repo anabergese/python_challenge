@@ -3,12 +3,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Comments from "./Comments";
+import { IUser, IPost } from "../Types/TypesIndex";
 
 const Post = () => {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [post, setPost] = useState(null as IPost | null);
+  const [user, setUser] = useState(null as IUser | null);
+  const [error, setError] = useState(null as string | null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +34,9 @@ const Post = () => {
   }, [id]);
 
   const handleClick = () => {
-    navigate(`/users/${user.id}`, { state: { userData: user } });
+    if (user) {
+      navigate(`/users/${user.id}`, { state: { userData: user } });
+    }
   };
 
   return (
@@ -45,13 +48,17 @@ const Post = () => {
           <div className="card">
             <div className="card-content has-background-light">
               <p className="title is-capitalized">{post.title}</p>
-              <button className="subtitle btn-no-style" onClick={handleClick}>
-                Created by: {user.name}
+              <button
+                className="subtitle btn-no-style"
+                onClick={handleClick}
+                disabled={!user}
+              >
+                Created by: {user?.name}
               </button>
               <div className="content is-capitalized">{post.body}</div>
             </div>
           </div>
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments || []} />
         </div>
       ) : (
         <p>Loading post details...</p>

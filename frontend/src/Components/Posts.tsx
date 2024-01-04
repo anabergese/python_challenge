@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { IPost } from "../Types/TypesIndex";
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([] as IPost[]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -4,15 +4,19 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ErrorBoundary } from "react-error-boundary";
+import { IFallbackProps } from "./Types/TypesIndex";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") ?? document.body
+);
 
-function Fallback({ error, resetErrorBoundary }) {
-  // Call resetErrorBoundary() to reset the error boundary and retry the render.
+function Fallback({ error, resetErrorBoundary }: IFallbackProps) {
   return (
-    <div class="notification is-danger is-light">
+    <div className="notification is-danger is-light">
       Something went wrong:
-      <button className="delete">x</button>
+      <button className="delete" onClick={resetErrorBoundary}>
+        Retry
+      </button>
       <strong> {error.message}</strong>
     </div>
   );

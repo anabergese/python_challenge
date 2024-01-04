@@ -1,6 +1,16 @@
+import { IComment } from "../Types/TypesIndex";
 import React from "react";
 
-const Comments = ({ comments }) => {
+const Comments = ({ comments }: { comments: IComment[] }) => {
+  if (!comments || !comments.length) {
+    return (
+      <>
+        <h1 className="title is-2 mt-6 mb-5">Comments</h1>
+        <p>No comments found</p>
+      </>
+    );
+  }
+
   return (
     <>
       <h1 className="title is-2 mt-6 mb-5">Comments</h1>

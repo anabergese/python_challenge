@@ -4,7 +4,10 @@ import { useLocation } from "react-router-dom";
 const User = () => {
   const location = useLocation();
   const { userData } = location.state || {};
-  console.log(userData);
+
+  if (!userData) {
+    throw new Error("No user data found");
+  }
 
   return (
     <div className="columns is-multiline">
