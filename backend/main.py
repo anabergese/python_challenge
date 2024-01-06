@@ -52,8 +52,10 @@ async def get_post_with_comments(
     comment_repository: ApiCommentRepository = Depends(),
 ):
     try:
-        post: Optional[Post] = await post_repository.get_by_id(post_id)
+        post = await post_repository.get_by_id(post_id)
         comments = await comment_repository.get_comments_by_post_id(post_id)
+        print("post type:", type(post))
+        print("comments type:", type(comments))
         if post:
             post.comments = comments if comments else []
             return post

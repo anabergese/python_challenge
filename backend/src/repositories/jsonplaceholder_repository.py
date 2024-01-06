@@ -16,8 +16,9 @@ class ApiPostRepository(PostRepository):
     async def get_all(self) -> List[Post]:
         return await get_all_posts()
 
-    async def get_by_id(self, post_id: int) -> Optional[Post]:
-        return await get_post_by_id(post_id)
+    async def get_by_id(self, post_id: int)-> Optional[Post]:
+        post_repo = await get_post_by_id(post_id) 
+        return post_repo
 
 
 class ApiCommentRepository(CommentRepository):
