@@ -11,11 +11,11 @@ MockedPosts = [
 ]
 
 MockedComments = [
-    Comment(body='Mocked Body 1', email='test@io.io', id=1, name='Mocked Name 1', postId=1),
-    Comment(body='Mocked Body 1', email='test@io.io', id=2, name='Mocked Name 2', postId=1),
+    Comment(body='Mocked Body 1', email='test@io.io', id=1, name='Mocked Name 1', postId=1).model_dump(),
+    Comment(body='Mocked Body 1', email='test@io.io', id=2, name='Mocked Name 2', postId=1).model_dump(),
 ]
 
-MockedPost = Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1", comments=MockedComments)
+MockedPost = Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1", comments=MockedComments).model_dump()
 
 MockedUser = {
     'id': 1,
@@ -69,7 +69,8 @@ def test_get_post_with_comments(mocker):
         mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_by_id", return_value=MockedPost)
         mocker.patch("backend.src.entrypoints.fastapi_app.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
         if MockedPost:
-            MockedPost.comments = MockedComments if MockedComments else []
+            MockedPost['comments'] = []
+            MockedPost['comments'].extend(MockedComments)
         else:
             raise Exception("Post not found error")
     except Exception as e:
@@ -84,11 +85,11 @@ def test_get_post_with_comments(mocker):
         response_comments_data = response_data.get('comments', [])
         response_comments = [Comment(**comment) for comment in response_comments_data]
 
-        assert response_data['id'] == MockedPost.id
-        assert response_data['userId'] == MockedPost.userId
-        assert response_data['title'] == MockedPost.title
-        assert response_data['body'] == MockedPost.body
-        assert response_comments == MockedPost.comments
+        assert response_data['id'] == MockedPost['id']
+        assert response_data['userId'] == MockedPost['userId']
+        assert response_data['title'] == MockedPost['title']
+        assert response_data['body'] == MockedPost['body']
+        assert response_data['comments'] == MockedPost['comments']
 
 # https://fastapi.tiangolo.com/tutorial/testing/
 # def test_cannot_get_post_with_comments_with_invalid_post_id_type()
