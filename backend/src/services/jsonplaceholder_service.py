@@ -1,5 +1,4 @@
 import httpx
-from backend.src.domain.model import Post, Comment
 
 JSONPLACEHOLDER_API_URL = "https://jsonplaceholder.typicode.com"
 
@@ -19,22 +18,6 @@ async def fetch_data(url):
         )
         raise
 
-def dict_to_post_model(post_dict: dict) -> Post:
-    return Post(
-        id=post_dict['id'],
-        userId=post_dict['userId'],
-        title=post_dict['title'],
-        body=post_dict['body']
-    )
-
-def dict_to_comment_model(comment_dict: dict) -> Comment:
-    return Comment(
-        id=comment_dict['id'],
-        postId=comment_dict['postId'],
-        name=comment_dict['name'],
-        email=comment_dict['email'],
-        body=comment_dict['body']
-    )
     
 async def get_all_posts():
     url = f"{JSONPLACEHOLDER_API_URL}/posts"
@@ -43,11 +26,8 @@ async def get_all_posts():
 
 async def get_post_by_id(id):
     url = f"{JSONPLACEHOLDER_API_URL}/posts/{id}"
-    post_data = await fetch_data(url)
-    if post_data:
-        return dict_to_post_model(post_data)
-    else:
-        return None
+    return await fetch_data(url)
+
 
 
 async def get_all_comments():
@@ -62,9 +42,7 @@ async def get_comment_by_id(id):
 
 async def get_comments_by_post_id(post_id):
     url = f"{JSONPLACEHOLDER_API_URL}/comments?postId={post_id}"
-    comments_data = await fetch_data(url)
-    return [dict_to_comment_model(comment_data) for comment_data in comments_data]
-
+    return await fetch_data(url)
 
 
 async def get_all_users():
