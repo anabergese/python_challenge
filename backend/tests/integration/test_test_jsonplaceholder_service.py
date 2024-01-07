@@ -1,5 +1,5 @@
 import pytest
-from backend.src.repositories.jsonplaceholder_service import get_user_by_id
+from backend.src.services.jsonplaceholder_service import get_user_by_id
 
 @pytest.mark.asyncio
 async def test_get_user_by_id_success():

@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from backend.main import app, handle_exception
+from backend.src.entrypoints.fastapi_app import app, handle_exception
 from backend.src.domain.model import Post, Comment
 
 client = TestClient(app)
@@ -32,14 +32,14 @@ def test_read_main():
     assert response.json() == {"message": "Hello World"}
 
 def test_read_all_posts(mocker):
-    mocker.patch("backend.main.ApiPostRepository.get_all", return_value=MockedPosts)
+    mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_all", return_value=MockedPosts)
 
     response = client.get("/posts")
     assert response.status_code == 200
     assert response.json() == MockedPosts
 
 def test_read_user_by_id(mocker):
-    mocker.patch("backend.main.ApiUserRepository.get_by_id", return_value=MockedUser)
+    mocker.patch("backend.src.entrypoints.fastapi_app.ApiUserRepository.get_by_id", return_value=MockedUser)
 
     response = client.get("/users/1")
     assert response.status_code == 200
@@ -47,7 +47,7 @@ def test_read_user_by_id(mocker):
     assert user_from_response == MockedUser
 
 def test_cannot_read_with_invalid_user_id_type(mocker):
-    mocker.patch("backend.main.ApiUserRepository.get_by_id", return_value=MockedUser)
+    mocker.patch("backend.src.entrypoints.fastapi_app.ApiUserRepository.get_by_id", return_value=MockedUser)
 
     response = client.get("/users/invalid_id")
     assert response.status_code == 422
@@ -66,8 +66,8 @@ def test_cannot_read_inexistent_user_id():
 
 def test_get_post_with_comments(mocker):
     try:
-        mocker.patch("backend.main.ApiPostRepository.get_by_id", return_value=MockedPost)
-        mocker.patch("backend.main.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
+        mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_by_id", return_value=MockedPost)
+        mocker.patch("backend.src.entrypoints.fastapi_app.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
         if MockedPost:
             MockedPost.comments = MockedComments if MockedComments else []
         else:

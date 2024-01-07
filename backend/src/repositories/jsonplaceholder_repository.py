@@ -1,7 +1,7 @@
 from typing import List, Optional
 from backend.src.domain.model import Post, Comment, User
 from backend.src.repositories.repository import PostRepository, CommentRepository, UserRepository
-from backend.src.repositories.jsonplaceholder_service import (
+from backend.src.services.jsonplaceholder_service import (
     get_all_posts,
     get_post_by_id,
     get_all_comments,
