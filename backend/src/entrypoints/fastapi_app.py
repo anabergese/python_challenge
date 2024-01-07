@@ -54,10 +54,9 @@ async def get_post_with_comments(
     try:
         post = await post_repository.get_by_id(post_id)
         comments = await comment_repository.get_comments_by_post_id(post_id)
-        print("post type:", type(post))
-        print("comments type:", type(comments))
+        post['comments'] = []
         if post:
-            post.comments = comments if comments else []
+            post['comments'].extend(comments)
             return post
         else:
             raise HTTPException(status_code=404, detail="Post not found")
