@@ -53,5 +53,4 @@ async def get_all_users():
 
 async def get_user_by_id(id):
     url = f"{JSONPLACEHOLDER_API_URL}/users/{id}"
-    response = await fetch_data(url)
-    return response
+    return await fetch_data(url)
