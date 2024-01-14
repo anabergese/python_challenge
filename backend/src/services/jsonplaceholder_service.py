@@ -1,19 +1,20 @@
 import httpx
+import logging
 
 JSONPLACEHOLDER_API_URL = "https://jsonplaceholder.typicode.com"
 
 
-async def fetch_data(url):
+async def fetch_data(url, timeout=40): 
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(url)
+            response = await client.get(url, timeout=timeout)
             response.raise_for_status()
             return response.json()
     except httpx.RequestError as req_err:
-        print(f"Request error while fetching data from {url}: {req_err}")
+        logging.error(f"Request error while fetching data from {url}: {req_err}")
         raise
     except httpx.HTTPStatusError as http_err:
-        print(
+        logging.error(
             f"HTTP error ({http_err.response.status_code}) occurred while fetching data from {url}"
         )
         raise
@@ -52,4 +53,5 @@ async def get_all_users():
 
 async def get_user_by_id(id):
     url = f"{JSONPLACEHOLDER_API_URL}/users/{id}"
-    return await fetch_data(url)
+    response = await fetch_data(url)
+    return response

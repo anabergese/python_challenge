@@ -83,7 +83,6 @@ def test_get_post_with_comments(mocker):
 
         # Convert comments in the response to Comment instances
         response_comments_data = response_data.get('comments', [])
-        response_comments = [Comment(**comment) for comment in response_comments_data]
 
         assert response_data['id'] == MockedPost['id']
         assert response_data['userId'] == MockedPost['userId']
