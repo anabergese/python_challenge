@@ -2,29 +2,9 @@ import pytest
 from fastapi.testclient import TestClient
 from backend.src.entrypoints.fastapi_app import app, handle_exception
 from backend.src.domain.model import Post, Comment
+from backend.tests.integration.test_repository import MockedPosts, MockedComments, MockedPost, MockedUser
 
 client = TestClient(app)
-
-MockedPosts = [
-    Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1").model_dump(),
-    Post(userId=1, id=2, title="Mocked Post 2", body="Mocked Body 2").model_dump(),
-]
-
-MockedComments = [
-    Comment(body='Mocked Body 1', email='test@io.io', id=1, name='Mocked Name 1', postId=1).model_dump(),
-    Comment(body='Mocked Body 1', email='test@io.io', id=2, name='Mocked Name 2', postId=1).model_dump(),
-]
-
-MockedPost = Post(userId=1, id=1, title="Mocked Post 1", body="Mocked Body 1", comments=MockedComments).model_dump()
-
-MockedUser = {
-    'id': 1,
-    'name': 'Mocked User 1',
-    'username': 'mocked_username',
-    'email': 'mocked@email.com',
-    'phone': '123456789',
-    'website': 'https://example.com'
-}
 
 def test_read_main():
     response = client.get("/")
