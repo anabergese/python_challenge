@@ -1,12 +1,11 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.src.entrypoints.fastapi_app import app, handle_exception
-from backend.src.domain.model import Post, Comment
 from backend.tests.integration.test_repository import MockedPosts, MockedComments, MockedPost, MockedUser
 
 client = TestClient(app)
 
-def test_read_main():
+def test_read_main_app_path():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello World"}
@@ -60,9 +59,6 @@ def test_get_post_with_comments(mocker):
         response = client.get("/post-with-comments/13")
         assert response.status_code == 200
         response_data = response.json()
-
-        # Convert comments in the response to Comment instances
-        response_comments_data = response_data.get('comments', [])
 
         assert response_data['id'] == MockedPost['id']
         assert response_data['userId'] == MockedPost['userId']

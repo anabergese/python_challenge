@@ -1,4 +1,3 @@
-import pytest
 from backend.src.domain.model import User
 
 def make_User(id=1, name="Ricardo", username="Test User", email="test@io.io", phone="0000000000", website="www.test.com"):

@@ -1,4 +1,3 @@
-import pytest
 from backend.src.domain.model import Comment
 
 def make_comment(id=1, name="Ricardo", postId=1 , email="test@io.io", body="Some text"):

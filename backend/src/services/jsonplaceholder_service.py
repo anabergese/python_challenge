@@ -25,8 +25,8 @@ async def get_all_posts():
     return await fetch_data(url)
 
 
-async def get_post_by_id(id):
-    url = f"{JSONPLACEHOLDER_API_URL}/posts/{id}"
+async def get_post_by_id(post_id):
+    url = f"{JSONPLACEHOLDER_API_URL}/posts/{post_id}"
     return await fetch_data(url)
 
 
@@ -36,8 +36,8 @@ async def get_all_comments():
     return await fetch_data(url)
 
 
-async def get_comment_by_id(id):
-    url = f"{JSONPLACEHOLDER_API_URL}/comments/{id}"
+async def get_comment_by_id(comment_id):
+    url = f"{JSONPLACEHOLDER_API_URL}/comments/{comment_id}"
     return await fetch_data(url)
 
 
@@ -51,6 +51,6 @@ async def get_all_users():
     return await fetch_data(url)
 
 
-async def get_user_by_id(id):
-    url = f"{JSONPLACEHOLDER_API_URL}/users/{id}"
+async def get_user_by_id(user_id):
+    url = f"{JSONPLACEHOLDER_API_URL}/users/{user_id}"
     return await fetch_data(url)
