@@ -15,7 +15,10 @@ const User = () => {
         {userData ? (
           <div>
             <div className="card" key={userData.id}>
-              <p className="card-header-title has-background-warning has-text-black-ter is-capitalized">
+              <p
+                className="card-header-title has-background-warning has-text-black-ter is-capitalized"
+                data-testid="user-name"
+              >
                 {userData.name}
               </p>
               <div className="card-content">

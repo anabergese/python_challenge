@@ -1,5 +1,5 @@
-import { IComment } from "../Types/TypesIndex";
 import React from "react";
+import { IComment } from "../Types/TypesIndex";
 
 const Comments = ({ comments }: { comments: IComment[] }) => {
   if (!comments || !comments.length) {
@@ -18,7 +18,10 @@ const Comments = ({ comments }: { comments: IComment[] }) => {
         {comments.map((comment) => (
           <div className="column is-half" key={comment.id}>
             <div className="card">
-              <p className="card-header-title has-background-warning has-text-black-ter is-capitalized">
+              <p
+                className="card-header-title has-background-warning has-text-black-ter is-capitalized"
+                data-testid="comment-name"
+              >
                 {comment.name}
               </p>
               <div className="card-content">
