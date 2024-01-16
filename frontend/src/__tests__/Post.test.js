@@ -59,5 +59,11 @@ test("renders Posts component with posts", async () => {
     expect(postTitle.textContent).toBe(mockPost.title);
   });
 
+  expect(axios.get).toHaveBeenCalledWith(
+    `http://localhost:8000/post-with-comments/1`
+  );
+  expect(axios.get).toHaveBeenCalledWith(
+    `http://localhost:8000/users/${mockPost.userId}`
+  );
   expect(axios.get).toHaveBeenCalledTimes(2);
 });
