@@ -68,7 +68,7 @@ test("renders Posts component with posts", async () => {
   );
 
   await waitFor(() => {
-    const postTitle = screen.getAllByTestId("post-title")[1];
+    const postTitle = screen.getAllByTestId("posts-titles")[1];
     expect(postTitle.textContent).toBe("qui est esse");
   });
 

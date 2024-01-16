@@ -47,7 +47,9 @@ const Post = () => {
         <div>
           <div className="card">
             <div className="card-content has-background-light">
-              <p className="title is-capitalized">{post.title}</p>
+              <p className="title is-capitalized" data-testid="post-title">
+                {post.title}
+              </p>
               <button
                 className="subtitle btn-no-style"
                 onClick={handleClick}
