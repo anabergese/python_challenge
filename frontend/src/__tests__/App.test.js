@@ -4,7 +4,7 @@
 
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import App from "../App.tsx";
+import App from "../Components/App.tsx";
 
 test("use jsdom in this test file", () => {
   const element = document.createElement("div");

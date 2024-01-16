@@ -1,11 +1,11 @@
-import "./index.css";
+import "../index.css";
 import "bulma/css/bulma.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 
-const Posts = lazy(() => import("./Components/Posts"));
-const Post = lazy(() => import("./Components/Post"));
-const User = lazy(() => import("./Components/User"));
+const Posts = lazy(() => import("./Posts"));
+const Post = lazy(() => import("./Post"));
+const User = lazy(() => import("./User"));
 
 const App = () => {
   return (
