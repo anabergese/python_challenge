@@ -27,6 +27,7 @@ const Posts = () => {
           <Link
             to={`/posts/${post.id}`}
             className="is-capitalized	is-size-5 has-text-dark"
+            data-testid="post-title"
           >
             {post.title}
           </Link>
