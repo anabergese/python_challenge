@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 import "bulma/css/bulma.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
