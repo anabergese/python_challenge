@@ -11,7 +11,6 @@ from backend.src.repositories.jsonplaceholder_repository import (
     ApiUserRepository,
 )
 from backend.src.repositories.repository import (
-    BaseRepository,
     CommentRepository,
     PostRepository,
     UserRepository,
@@ -55,7 +54,7 @@ def root():
     return {"message": "Hello World"}
 
 @app.get("/posts", response_model=List[Post])
-async def read_all_posts(post_repository: BaseRepository = Depends(get_post_repository)):
+async def read_all_posts(post_repository: PostRepository = Depends(get_post_repository)):
     try:
         posts = await post_repository.get_all()
         if posts:
@@ -68,8 +67,8 @@ async def read_all_posts(post_repository: BaseRepository = Depends(get_post_repo
 @app.get("/post-with-comments/{post_id}", response_model=Post)
 async def get_post_with_comments(
     post_id: int,
-    post_repository: BaseRepository = Depends(get_post_repository),
-    comment_repository: BaseRepository = Depends(get_comment_repository),
+    post_repository: PostRepository = Depends(get_post_repository),
+    comment_repository: ApiCommentRepository = Depends(get_comment_repository),
 ):
     try:
         post = await post_repository.get_by_id(post_id)
@@ -84,7 +83,7 @@ async def get_post_with_comments(
         handle_exception(e)
 
 @app.get("/users/{user_id}", response_model=User)
-async def read_user_by_id(user_id: int, user_repository: BaseRepository = Depends(get_user_repository)):
+async def read_user_by_id(user_id: int, user_repository: UserRepository = Depends(get_user_repository)):
     try:
         user = await user_repository.get_by_id(user_id)
         if user:
