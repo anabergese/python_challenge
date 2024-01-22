@@ -68,7 +68,7 @@ async def read_all_posts(post_repository: PostRepository = Depends(get_post_repo
 async def get_post_with_comments(
     post_id: int,
     post_repository: PostRepository = Depends(get_post_repository),
-    comment_repository: ApiCommentRepository = Depends(get_comment_repository),
+    comment_repository: CommentRepository = Depends(get_comment_repository),
 ):
     try:
         post = await post_repository.get_by_id(post_id)
