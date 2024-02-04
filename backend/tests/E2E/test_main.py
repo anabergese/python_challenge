@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.src.entrypoints.fastapi_app import app, handle_exception
-from backend.tests.integration.test_repository import MockedPosts, MockedComments, MockedPost, MockedUser
+from backend.tests.data_mocks import MockedPosts, MockedComments, MockedPost, MockedUser
 
 client = TestClient(app)
 

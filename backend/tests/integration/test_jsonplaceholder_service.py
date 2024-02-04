@@ -1,6 +1,8 @@
 import pytest
 import httpx
 from backend.src.services.jsonplaceholder_service import get_user_by_id, get_post_by_id, get_comments_by_post_id
+from backend.tests.data_mocks import MockedUser
+import unittest.mock as mock
 
 @pytest.mark.asyncio
 async def test_get_user_by_id_success():
@@ -49,3 +51,13 @@ async def test_get_comments_by_id_success():
 async def test_get_comments_with_invalid_id():
     data = await get_comments_by_post_id("string") 
     assert data == []
+
+
+@mock.patch("backend.src.services.jsonplaceholder_service.httpx.AsyncClient.get")
+def get_mocked_user_by_id(mock_get):
+    mock_response = mock.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = MockedUser
+    mock_get.return_value = mock_response
+    data = get_user_by_id(1)
+    assert data == MockedUser
