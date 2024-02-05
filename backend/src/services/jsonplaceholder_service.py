@@ -19,7 +19,7 @@ async def fetch_data(url, timeout=40):
         )
         raise
 
-    
+
 async def get_all_posts():
     url = f"{JSONPLACEHOLDER_API_URL}/posts"
     return await fetch_data(url)
