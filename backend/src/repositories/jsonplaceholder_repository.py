@@ -4,6 +4,7 @@ from backend.src.repositories.repository import PostRepository, CommentRepositor
 from backend.src.services.jsonplaceholder_service import (
     get_all_posts,
     get_post_by_id,
+    get_post_with_comments,
     get_all_comments,
     get_comment_by_id,
     get_comments_by_post_id,
@@ -20,6 +21,8 @@ class ApiPostRepository(PostRepository):
         post_repo = await get_post_by_id(post_id) 
         return post_repo
 
+    async def get_post_with_comments(self, post_id: int) -> Optional[Post]:
+        return await get_post_with_comments(post_id)
 
 class ApiCommentRepository(CommentRepository):
     async def get_all(self) -> List[Comment]:

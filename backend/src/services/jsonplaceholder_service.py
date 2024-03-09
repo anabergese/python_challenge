@@ -20,37 +20,52 @@ async def fetch_data(url, timeout=40):
         raise
 
 
-async def get_all_posts():
-    url = f"{JSONPLACEHOLDER_API_URL}/posts"
+async def get_resource_by_id(resource, resource_id=None):
+    url = f"{JSONPLACEHOLDER_API_URL}/{resource}"
+    if resource_id is not None:
+        url += f"/{resource_id}"
     return await fetch_data(url)
+
+
+async def get_all_posts():
+    return await get_resource_by_id("posts")
 
 
 async def get_post_by_id(post_id):
-    url = f"{JSONPLACEHOLDER_API_URL}/posts/{post_id}"
-    return await fetch_data(url)
-
+    return await get_resource_by_id("posts", post_id)
 
 
 async def get_all_comments():
-    url = f"{JSONPLACEHOLDER_API_URL}/comments"
-    return await fetch_data(url)
-
-
-async def get_comment_by_id(comment_id):
-    url = f"{JSONPLACEHOLDER_API_URL}/comments/{comment_id}"
-    return await fetch_data(url)
+    return await get_resource_by_id("comments")
 
 
 async def get_comments_by_post_id(post_id):
-    url = f"{JSONPLACEHOLDER_API_URL}/comments?postId={post_id}"
-    return await fetch_data(url)
+    return await get_resource_by_id("comments", f"?postId={post_id}")
 
 
-async def get_all_users():
-    url = f"{JSONPLACEHOLDER_API_URL}/users"
-    return await fetch_data(url)
+async def get_comment_by_id(comment_id):
+    return await get_resource_by_id("comments", comment_id)
+
+
+async def get_post_with_comments(post_id):
+    try:
+        post = await get_resource_by_id("posts", post_id)
+        comments = await get_resource_by_id("comments", f"?postId={post_id}")
+        post['comments'] = comments
+        return post
+    except httpx.RequestError as req_err:
+        logging.error(f"Request error while fetching post with comments (post_id={post_id}): {req_err}")
+        raise
+    except httpx.HTTPStatusError as http_err:
+        logging.error(
+            f"HTTP error ({http_err.response.status_code}) occurred while fetching post with comments (post_id={post_id})"
+        )
+        raise
 
 
 async def get_user_by_id(user_id):
-    url = f"{JSONPLACEHOLDER_API_URL}/users/{user_id}"
-    return await fetch_data(url)
+    return await get_resource_by_id("users", user_id)
+
+
+async def get_all_users():
+    return await get_resource_by_id("users")

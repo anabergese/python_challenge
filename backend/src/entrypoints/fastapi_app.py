@@ -68,14 +68,10 @@ async def read_all_posts(post_repository: PostRepository = Depends(get_post_repo
 async def get_post_with_comments(
     post_id: int,
     post_repository: PostRepository = Depends(get_post_repository),
-    comment_repository: CommentRepository = Depends(get_comment_repository),
 ):
     try:
-        post = await post_repository.get_by_id(post_id)
-        comments = await comment_repository.get_comments_by_post_id(post_id)
-        post['comments'] = []
+        post = await post_repository.get_post_with_comments(post_id)
         if post:
-            post['comments'].extend(comments)
             return post
         else:
             raise HTTPException(status_code=404, detail="Post not found")
