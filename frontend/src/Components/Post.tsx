@@ -3,10 +3,11 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Comments from "./Comments";
+import { getUserDataById } from "../api";
 import { IUser, IPost } from "../Types/TypesIndex";
 
 const Post = () => {
-  const { id } = useParams();
+  const { id: postId } = useParams();
   const [post, setPost] = useState(null as IPost | null);
   const [user, setUser] = useState(null as IUser | null);
   const [error, setError] = useState(null as string | null);
@@ -16,14 +17,14 @@ const Post = () => {
     const fetchData = async () => {
       try {
         const postResponse = await axios.get(
-          `http://localhost:8000/post-with-comments/${id}`
+          `http://localhost:8000/post-with-comments/${postId}`
         );
         setPost(postResponse.data);
 
-        const userResponse = await axios.get(
-          `http://localhost:8000/users/${postResponse.data.userId}`
+        const userData = await getUserDataById(
+          postResponse.data.userId as number
         );
-        setUser(userResponse.data);
+        setUser(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Inexistent post. Please try again.");
@@ -31,7 +32,7 @@ const Post = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [postId]);
 
   const handleClick = () => {
     if (user) {
