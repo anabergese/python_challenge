@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Comments from "./Comments";
-import { getUserDataById } from "../api";
+import { getUserDataById, getPostWithComments } from "../api";
 import { IUser, IPost } from "../Types/TypesIndex";
 
 const Post = () => {
@@ -16,14 +15,10 @@ const Post = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postResponse = await axios.get(
-          `http://localhost:8000/post-with-comments/${postId}`
-        );
-        setPost(postResponse.data);
+        const postResponse = await getPostWithComments(postId);
+        setPost(postResponse);
 
-        const userData = await getUserDataById(
-          postResponse.data.userId as number
-        );
+        const userData = await getUserDataById(postResponse.userId as number);
         setUser(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
