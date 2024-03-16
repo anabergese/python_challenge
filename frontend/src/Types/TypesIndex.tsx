@@ -29,6 +29,9 @@ export interface IFallbackProps {
 }
 
 export interface ICardProps {
+  columnClassName?: string;
+  cardClassName?: string;
+  headerClassName?: string;
   title: string;
   children: React.ReactNode;
 }

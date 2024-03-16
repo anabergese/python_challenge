@@ -12,7 +12,11 @@ const User = () => {
 
   return (
     <div className="columns is-multiline">
-      <Card title={userData.name}>
+      <Card
+        title={userData.name}
+        headerClassName="card-header-title has-background-warning has-text-black-ter is-capitalized"
+        columnClassName="is-half"
+      >
         <>
           <div className="content is-capitalized">
             Username: {userData.username}

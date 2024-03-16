@@ -1,12 +1,18 @@
 import React from "react";
 import { ICardProps } from "../Types/TypesIndex";
 
-const Card: React.FC<ICardProps> = ({ title, children }) => {
+const Card: React.FC<ICardProps> = ({
+  title,
+  children,
+  columnClassName,
+  cardClassName,
+  headerClassName,
+}) => {
   return (
-    <div className="column is-half">
-      <div className="card">
+    <div className={`column ${columnClassName}`}>
+      <div className={`card ${cardClassName}`}>
         <p
-          className="card-header-title has-background-warning has-text-black-ter is-capitalized"
+          className={`is-capitalized ${headerClassName}`}
           data-testid="card-title"
         >
           {title}

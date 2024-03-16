@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Comments from "./Comments";
 import { getUserDataById, getPostWithComments } from "../api";
 import { IUser, IPost } from "../Types/TypesIndex";
+import Card from "./Card";
 
 const Post = () => {
   const { id: postId } = useParams();
@@ -41,11 +42,12 @@ const Post = () => {
         <p>Error: {error}</p>
       ) : post && user ? (
         <div>
-          <div className="card">
-            <div className="card-content has-background-light">
-              <p className="title is-capitalized" data-testid="post-title">
-                {post.title}
-              </p>
+          <Card
+            title={post.title}
+            headerClassName="title card-content has-background-light"
+            cardClassName="card-content has-background-light"
+          >
+            <>
               <button
                 className="subtitle btn-no-style"
                 onClick={handleClick}
@@ -54,8 +56,8 @@ const Post = () => {
                 Created by: {user?.name}
               </button>
               <div className="content is-capitalized">{post.body}</div>
-            </div>
-          </div>
+            </>
+          </Card>
           <Comments comments={post.comments || []} />
         </div>
       ) : (

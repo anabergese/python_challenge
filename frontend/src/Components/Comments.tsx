@@ -17,7 +17,12 @@ const Comments = ({ comments }: { comments: IComment[] }) => {
       <h1 className="title is-2 mt-6 mb-5">Comments</h1>
       <div className="columns is-multiline">
         {comments.map((comment) => (
-          <Card title={comment.name} key={comment.id}>
+          <Card
+            title={comment.name}
+            key={comment.id}
+            headerClassName="card-header-title has-background-warning"
+            columnClassName="is-half"
+          >
             <>
               <div className="content is-capitalized">{comment.body}</div>
               <div className="content">Author: {comment.email}</div>
