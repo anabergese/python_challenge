@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import Card from "./Card";
 
 const User = () => {
   const location = useLocation();
@@ -11,39 +12,19 @@ const User = () => {
 
   return (
     <div className="columns is-multiline">
-      <div className="column is-half">
-        {userData ? (
-          <div>
-            <div className="card" key={userData.id}>
-              <p
-                className="card-header-title has-background-warning has-text-black-ter is-capitalized"
-                data-testid="user-name"
-              >
-                {userData.name}
-              </p>
-              <div className="card-content">
-                <div className="content is-capitalized">
-                  Username: {userData.username}
-                </div>
-                <div className="content is-capitalized">
-                  Name: {userData.name}
-                </div>
-                <div className="content is-capitalized">
-                  Email: {userData.email}
-                </div>
-                <div className="content is-capitalized">
-                  Phone: {userData.phone}
-                </div>
-                <div className="content is-capitalized">
-                  Website: {userData.website}
-                </div>
-              </div>
-            </div>
+      <Card title={userData.name}>
+        <>
+          <div className="content is-capitalized">
+            Username: {userData.username}
           </div>
-        ) : (
-          <p>Loading user...</p>
-        )}
-      </div>
+          <div className="content is-capitalized">Name: {userData.name}</div>
+          <div className="content is-capitalized">Email: {userData.email}</div>
+          <div className="content is-capitalized">Phone: {userData.phone}</div>
+          <div className="content is-capitalized">
+            Website: {userData.website}
+          </div>
+        </>
+      </Card>
     </div>
   );
 };

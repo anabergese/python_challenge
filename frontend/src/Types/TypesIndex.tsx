@@ -27,3 +27,8 @@ export interface IFallbackProps {
   error: Error;
   resetErrorBoundary: () => void;
 }
+
+export interface ICardProps {
+  title: string;
+  children: React.ReactNode;
+}
