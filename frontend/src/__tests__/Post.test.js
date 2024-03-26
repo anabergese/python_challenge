@@ -55,7 +55,7 @@ test("renders Posts component with posts", async () => {
   );
 
   await waitFor(() => {
-    const postTitle = screen.getByTestId("post-title");
+    const postTitle = screen.getAllByTestId("card-title")[0];
     expect(postTitle.textContent).toBe(mockPost.title);
   });
 

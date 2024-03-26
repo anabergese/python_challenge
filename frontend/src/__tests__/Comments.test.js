@@ -31,7 +31,7 @@ test("renders Comments component with comments", async () => {
     </Router>
   );
 
-  const commentName = screen.getAllByTestId("comment-name")[1];
+  const commentName = screen.getAllByTestId("card-title")[1];
   expect(commentName.textContent).toBe(
     "quo vero reiciendis velit similique earum"
   );

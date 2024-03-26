@@ -39,6 +39,6 @@ test("renders User component with user data", () => {
     </MemoryRouter>
   );
 
-  const commentName = screen.getByTestId("user-name");
+  const commentName = screen.getByTestId("card-title");
   expect(commentName.textContent).toBe("John Doe");
 });
