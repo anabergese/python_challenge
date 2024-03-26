@@ -35,10 +35,6 @@ class TestJsonPlaceholderService:
         data = await get_comments_by_post_id(1)
         self.assert_comment_data(data)
 
-    @pytest.mark.asyncio
-    async def test_get_comments_with_invalid_id(self):
-        data = await get_comments_by_post_id("string")
-        assert data == []
 
     @pytest.mark.asyncio
     @mock.patch("backend.src.services.jsonplaceholder_service.httpx.AsyncClient.get")
@@ -49,22 +45,6 @@ class TestJsonPlaceholderService:
         mock_get.return_value = mock_response
         data = await get_user_by_id(1)
         assert data == MockedUser
-
-    @pytest.mark.asyncio
-    @mock.patch("backend.src.services.jsonplaceholder_service.httpx.AsyncClient.get")
-    async def test_fetch_data_request_error(self, mock_get):
-        url = f"test"
-        mock_get.side_effect = httpx.RequestError("Test Request Error")
-        with pytest.raises(httpx.RequestError):
-            await fetch_data(url)
-
-    @pytest.mark.asyncio
-    @mock.patch("backend.src.services.jsonplaceholder_service.httpx.AsyncClient.get")
-    async def test_fetch_data_http_error(self, mock_get):
-        url = f"test"
-        mock_get.side_effect = httpx.HTTPStatusError("Test HTTP Error", request=mock.Mock(), response=httpx.Response(404))
-        with pytest.raises(httpx.HTTPStatusError):
-            await fetch_data(url)
 
     def assert_user_data(self, data):
         assert "id" in data

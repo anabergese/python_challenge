@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.src.entrypoints.fastapi_app import app, handle_exception
-from backend.tests.data_mocks import MockedPosts, MockedComments, MockedPost, MockedUser
+from backend.tests.data_mocks import MockedPosts, MockedPost, MockedUser
 from backend.tests.integration.test_repository import FakePostRepository
 
 client = TestClient(app)
@@ -48,23 +48,20 @@ class TestFastAPIApp:
 
     def test_get_post_with_comments(self, mocker):
         try:
-            mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_by_id", return_value=MockedPost)
-            mocker.patch("backend.src.entrypoints.fastapi_app.ApiCommentRepository.get_comments_by_post_id", return_value=MockedComments)
+            mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_post_with_comments", return_value=MockedPost)
             if MockedPost:
-                MockedPost['comments'] = []
-                MockedPost['comments'].extend(MockedComments)
+                assert MockedPost
             else:
                 raise Exception("Post not found error")
         except Exception as e:
             handle_exception(e)
 
-        if MockedPost:
-            response = client.get("/post-with-comments/13")
-            assert response.status_code == 200
-            response_data = response.json()
+        response = client.get("/post-with-comments/13")
+        assert response.status_code == 200
+        response_data = response.json()
 
-            assert response_data['id'] == MockedPost['id']
-            assert response_data['userId'] == MockedPost['userId']
-            assert response_data['title'] == MockedPost['title']
-            assert response_data['body'] == MockedPost['body']
-            assert response_data['comments'] == MockedPost['comments']
+        assert response_data['id'] == MockedPost['id']
+        assert response_data['userId'] == MockedPost['userId']
+        assert response_data['title'] == MockedPost['title']
+        assert response_data['body'] == MockedPost['body']
+        assert response_data['comments'] == MockedPost['comments']
