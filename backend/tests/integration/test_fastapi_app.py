@@ -2,7 +2,6 @@ import pytest
 from fastapi.testclient import TestClient
 from backend.src.entrypoints.fastapi_app import app, handle_exception
 from backend.tests.data_mocks import MockedPosts, MockedPost, MockedUser
-from backend.tests.integration.test_repository import FakePostRepository
 
 client = TestClient(app)
 
