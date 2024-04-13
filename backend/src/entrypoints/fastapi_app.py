@@ -34,7 +34,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Use dependency injection
 def get_post_repository() -> PostRepository:
     return ApiPostRepository()
 
@@ -44,11 +43,9 @@ def get_comment_repository() -> CommentRepository:
 def get_user_repository() -> UserRepository:
     return ApiUserRepository()
 
-# Catch Errors
 def handle_exception(e: Exception):
     raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
-# Routes
 @app.get("/")
 def root():
     return {"message": "Hello World"}
