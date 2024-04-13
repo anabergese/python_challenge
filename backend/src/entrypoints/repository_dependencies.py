@@ -3,17 +3,12 @@ from backend.src.repositories.jsonplaceholder_repository import (
     ApiCommentRepository,
     ApiUserRepository,
 )
-from backend.src.repositories.repository import (
-    CommentRepository,
-    PostRepository,
-    UserRepository,
-)
 
-def get_post_repository() -> PostRepository:
+def get_post_repository():
     return ApiPostRepository()
 
-def get_comment_repository() -> CommentRepository:
+def get_comment_repository():
     return ApiCommentRepository()
 
-def get_user_repository() -> UserRepository:
+def get_user_repository():
     return ApiUserRepository()
