@@ -2,16 +2,9 @@ from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-
 from backend.src.domain.model import Post, User
-from backend.src.repositories.jsonplaceholder_repository import (
-    ApiPostRepository,
-    ApiCommentRepository,
-    ApiUserRepository,
-)
+from backend.src.entrypoints.repository_dependencies import get_post_repository, get_user_repository
 from backend.src.repositories.repository import (
-    CommentRepository,
     PostRepository,
     UserRepository,
 )
@@ -34,21 +27,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_post_repository() -> PostRepository:
-    return ApiPostRepository()
-
-def get_comment_repository() -> CommentRepository:
-    return ApiCommentRepository()
-
-def get_user_repository() -> UserRepository:
-    return ApiUserRepository()
 
 def handle_exception(e: Exception):
     raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
-
-@app.get("/")
-def root():
-    return {"message": "Hello World"}
 
 @app.get("/posts", response_model=List[Post])
 async def read_all_posts(post_repository: PostRepository = Depends(get_post_repository)):
