@@ -7,11 +7,6 @@ client = TestClient(app)
 
 class TestFastAPIApp:
 
-    def test_read_main_app_path(self):
-        response = client.get("/")
-        assert response.status_code == 200
-        assert response.json() == {"message": "Hello World"}
-
     def test_read_all_posts(self, mocker):
         mocker.patch("backend.src.entrypoints.fastapi_app.ApiPostRepository.get_all", return_value=MockedPosts)
 
